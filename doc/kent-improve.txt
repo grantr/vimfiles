@@ -1,0 +1,86 @@
+*kent-improve.txt*	Kent Vim Improvements
+*kent-improve*
+
+		VIM REFERENCE MANUAL by Mario Schweigler <ms44@kent.ac.uk>
+			Last Change: 23 April 2003
+
+==============================================================================
+
+This help file gives an overview over some improvements to the look and feel
+of Vim.
+
+==============================================================================
+Contents:
+
+|kent-improve-togglebackup|	Toggle whether backup is switched on
+|kent-improve-toggletabstyle|	Toggle the style of tabs
+|kent-improve-cleanwhiteline|	Clean white lines
+|kent-improve-helpjumptags|	Jump between help tags and call them
+
+Please note that in console mode some of the shortcuts might not work. In this
+case please use the commands.
+
+==============================================================================
+*kent-improve-togglebackup*
+Toggle whether backup is switched on
+====================================
+
+Commands
+--------
+			*:Togglebackup* *:TB*
+:Togglebackup		Toggle whether a backup file is created when the
+:TB			current buffer is saved.
+
+Shortcuts
+---------
+			*F9* *<F9>*
+<F9>			Toggle whether a backup file is created when the
+			current buffer is saved.
+
+==============================================================================
+*kent-improve-toggletabstyle*
+Toggle the style of tabs
+========================
+
+Commands
+--------
+			*:Toggletabstyle* *:TTS*
+:Toggletabstyle		Toggle the style of tabs between Vim style tabs (hard
+:TTS			tabs, width of 8) and occam style tabs (soft tabs,
+			width of 2).
+
+Shortcuts
+---------
+			*F12* *<F12>*
+<F12>			Toggle the style of tabs between Vim style tabs (hard
+			tabs, width of 8) and occam style tabs (soft tabs,
+			width of 2).
+
+==============================================================================
+*kent-improve-cleanwhiteline*
+Clean white lines
+=================
+
+Commands
+--------
+			*:Cleanwhiteline* *:CWL*
+:{range}Cleanwhiteline	Clean the lines in {range} which contain only
+:{range}CWL		whitespaces (i.e. remove those spaces).
+
+Shortcuts
+---------
+			*Ctrl-F12* *<Ctrl-F12>* *<C-F12>*
+<Ctrl-F12>		Clean the current line or the lines in current
+			selection which contain only whitespaces (i.e. remove
+			those spaces).
+
+==============================================================================
+*kent-improve-helpjumptags*
+Jump between help tags and call them
+====================================
+
+It is now possible in a help window to jump between help tags with <Tab> and
+<Shift-Tab>, and to call them by pressing <Enter> - just like in a web
+browser.
+
+vim:tw=78:ts=8:isk+=-:ft=help:norl:

@@ -1,0 +1,5 @@
+./doc/EvalSelection.txt
+./etc/EvalSelection.lst
+./plugin/EvalSelection.vim
+./ruby/EvalSelection.rb
+./syntax/EvalSelectionLog.vim

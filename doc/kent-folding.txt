@@ -1,0 +1,708 @@
+*kent-folding.txt*	Kent Folding Extensions
+*kent-folding*
+
+		VIM REFERENCE MANUAL by Mario Schweigler <ms44@kent.ac.uk>
+			Last Change: 23 April 2003
+
+==============================================================================
+
+This help file gives an overview over the Kent Folding Extensions.
+
+Please note that they will ONLY work properly with 'swapfile' switched on,
+'foldmethod' set to marker and WITHOUT manually setting the foldlevel, i.e.
+without things like }}}1
+
+==============================================================================
+Contents:
+
+|kent-folding-create|		Create folds
+|kent-folding-delete|		Delete folds
+|kent-folding-open|		Open folds
+|kent-folding-close|		Close folds
+|kent-folding-enter|		Enter folds or selections
+|kent-folding-exit|		Exit folds
+|kent-folding-describe|		Describe folds with first non-empty line
+|kent-folding-togglecomment|	Toggle whether a fold is commented out
+|kent-folding-viewcursorline|	View cursor line
+|kent-folding-reapplyfoldlevel|	Re-apply fold level
+|kent-folding-reinitialise|	Reinitialise folds
+|kent-folding-disable|		Disable and enable folding
+|kent-folding-origamimode|	Adjust the folding behaviour to origami style
+|kent-folding-toggleshowfoldlevel|		Toggle whether fold level is
+						shown in status line
+|kent-folding-toggleexpandemptyfoldtext|	Toggle whether empty fold text
+						is expanded
+|kent-folding-recover|		Recover folds after a crashed session
+
+Also check out:
+|kent-folding-shortcuts|	Table of the "sixpack" shortcuts
+
+For all tasks there exists a command and for most of them there is a shortcut
+too. Please note that in console mode some of the shortcuts might not work. In
+this case please use the commands.
+
+For a general introduction to folding see |folding|.
+
+==============================================================================
+*kent-folding-create*
+Create folds
+============
+
+Commands
+--------
+			*:Foldcreate* *:FC*
+:{range}Foldcreate	Create a fold by folding the lines in {range}. The
+:{range}FC		cursor is then left at a position where a fold comment
+			can be entered immediately. See also
+			|kent-programming-commentsandfiletypes|.
+
+Shortcuts
+---------
+			*Alt-Insert* *<Alt-Insert>* *<M-Insert>*
+			*Alt-Up* *<Alt-Up>* *<M-Up>*
+			*Alt-Down* *<Alt-Down>* *<M-Down>*
+<Alt-Insert>		Pressing <Alt-Insert> the first time selects the
+			current line. Then you can extend the selection with
+			<Alt-Up> or <Alt-Down>. Pressing <Alt-Insert> again
+			then creates a fold by folding the selected lines. The
+			cursor is then left at a position where a fold comment
+			can be entered immediately. See also
+			|kent-programming-commentsandfiletypes|.
+
+			Note: In origami:Alt mode (see |kent-origamimode|),
+			pressing <Insert> behaves like <Alt-Insert>.
+
+==============================================================================
+*kent-folding-delete* *kent-folding-eliminate*
+Delete folds
+============
+
+Commands
+--------
+			*:Folddel* *:FD*
+:{range}Folddel		Delete folds in {range}. (Only applies to the folds
+:{range}FD		which can be seen, not to subfolds.) Existing fold
+			descriptors are turned into a normal comment resp.
+			normal text. See also
+			|kent-programming-commentsandfiletypes|.
+
+			*:Folddelall* *:FDA*
+:Folddelall		Delete all folds in the current buffer. Existing fold
+:FDA			descriptors are turned into a normal comment resp.
+			normal text. See also
+			|kent-programming-commentsandfiletypes|.
+
+			*:Folddelrec* *:FDR*
+:{range}Folddelrec	Delete folds in {range} recursively (i.e. including
+:{range}FDR		subfolds). Existing fold descriptors are turned into a
+			normal comment resp. normal text. See also
+			|kent-programming-commentsandfiletypes|.
+
+			*:Foldeliminate* *:FDE*
+:{range}Foldeliminate	Delete folds in {range}. (Only applies to the folds
+:{range}FDE		which can be seen, not to subfolds.) Existing fold
+			descriptors are deleted. See also
+			|kent-programming-commentsandfiletypes|.
+
+			*:Foldeliminateall* *:FDEA*
+:Foldeliminatell	Delete all folds in the current buffer. Existing fold
+:FDEA			descriptors are deleted. See also
+			|kent-programming-commentsandfiletypes|.
+
+				*:Foldeliminaterec* *:FDER*
+:{range}Foldeliminaterec	Delete folds in {range} recursively (i.e.
+:{range}FDER			including subfolds). Existing fold descriptors
+				are deleted. See also
+				|kent-programming-commentsandfiletypes|.
+
+Shortcuts
+---------
+			*Alt-Del* *<Alt-Del>* *<M-Del>*
+<Alt-Del>		Delete folds in selection or on current line. (Only
+			applies to the folds which can be seen, not to
+			subfolds.) Existing fold descriptors are turned into a
+			normal comment resp. normal text. See also
+			|kent-programming-commentsandfiletypes|.
+
+			Note: In origami:Alt mode (see |kent-origamimode|),
+			pressing <Del> behaves like <Alt-Del>.
+
+			*Shift-Alt-Del* *<Shift-Alt-Del>* *<M-S-Del>*
+<Shift-Alt-Del>		Delete folds in selection or on current line
+			recursively (i.e. including subfolds). Existing fold
+			descriptors are turned into a normal comment resp.
+			normal text. See also
+			|kent-programming-commentsandfiletypes|.
+
+			Note: In origami:Shift-Alt mode (see
+			|kent-origamimode|), pressing <Del> behaves like
+			<Shift-Alt-Del>.
+
+			*Ctrl-Shift-Alt-Insert* *<Ctrl-Shift-Alt-Insert>*
+			*<M-C-S-Insert>*
+<Ctrl-Shift-Alt-Insert>	Eliminate folds: Delete folds in selection or on
+			current line. (Only applies to the folds which can be
+			seen, not to subfolds.) Existing fold descriptors are
+			deleted. See also
+			|kent-programming-commentsandfiletypes|.
+
+			Note: In origami:Ctrl-Shift-Alt mode (see
+			|kent-origamimode|), pressing <Insert> behaves like
+			<Ctrl-Shift-Alt-Insert>.
+
+==============================================================================
+*kent-folding-open*
+Open folds
+============
+
+Commands
+--------
+			*zo*
+zo			Open folds in {range}. (Only applies to the folds
+{range}:normal zo	which can be seen, not to subfolds.)
+
+			*zR*
+zR			Open all folds in the current buffer.
+
+			*zO*
+zO			Open folds in {range} recursively (i.e. including
+{range}:normal zO	subfolds).
+
+			*zr*
+zr			Increase fold level. (One more level of folds will be
+			opened.)
+
+Shortcuts
+---------
+			*Alt-End* *<Alt-End>* *<M-End>*
+<Alt-End>		Open folds in selection or on current line. (Only
+			applies to the folds which can be seen, not to
+			subfolds.)
+
+			Note: In origami:Alt mode (see |kent-origamimode|),
+			pressing <End> behaves like <Alt-End>.
+
+			*Ctrl-Alt-End* *<Ctrl-Alt-End>* *<M-C-End>*
+<Ctrl-Alt-End>		Open all folds in the current buffer.
+
+			Note: In origami:Ctrl-Alt mode (see
+			|kent-origamimode|), pressing <End> behaves like
+			<Ctrl-Alt-End>.
+
+			*Shift-Alt-End* *<Shift-Alt-End>* *<M-S-End>*
+<Shift-Alt-End>		Open folds in selection or on current line recursively
+			(i.e. including subfolds).
+
+			Note: In origami:Shift-Alt mode (see
+			|kent-origamimode|), pressing <End> behaves like
+			<Shift-Alt-End>.
+
+			*Ctrl-Shift-Alt-End* *<Ctrl-Shift-Alt-End>*
+			*<M-C-S-End>*
+<Ctrl-Shift-Alt-End>	Increase fold level. (One more level of folds will be
+			opened.)
+
+			Note: In origami:Ctrl-Shift-Alt mode (see
+			|kent-origamimode|), pressing <End> behaves like
+			<Ctrl-Shift-Alt-End>.
+
+==============================================================================
+*kent-folding-close*
+Close folds
+===========
+
+Commands
+--------
+			*zc*
+zc			Close folds in {range}. (Does not apply to surrounding
+{range}:normal zc	folds.)
+
+			*zM*
+zM			Close all folds in the current buffer.
+
+			*zC*
+zC			Close folds in {range} recursively (i.e. including
+{range}:normal zC	surrounding folds).
+
+			*zm*
+zm			Decrease fold level. (One less level of folds will be
+			open afterwards.)
+
+Shortcuts
+---------
+			*Alt-PageDown* *<Alt-PageDown>* *<M-PageDown>*
+<Alt-PageDown>		Close folds in selection or on current line. (Does not
+			apply to surrounding folds.)
+
+			Note: In origami:Alt mode (see |kent-origamimode|),
+			pressing <PageDown> behaves like <Alt-PageDown>.
+
+			*Ctrl-Alt-PageDown* *<Ctrl-Alt-PageDown>*
+			*<M-C-PageDown>*
+<Ctrl-Alt-PageDown>	Close all folds in the current buffer.
+
+			Note: In origami:Ctrl-Alt mode (see
+			|kent-origamimode|), pressing <PageDown> behaves like
+			<Ctrl-Alt-PageDown>.
+
+			*Shift-Alt-PageDown* *<Shift-Alt-PageDown>*
+			*<M-S-PageDown>*
+<Shift-Alt-PageDown>	Close folds in selection or on current line
+			recursively (i.e. including surrounding folds).
+
+			Note: In origami:Shift-Alt mode (see
+			|kent-origamimode|), pressing <PageDown> behaves like
+			<Shift-Alt-PageDown>.
+
+				*Ctrl-Shift-Alt-PageDown*
+				*<Ctrl-Shift-Alt-PageDown>*
+				*<M-C-S-PageDown>*
+<Ctrl-Shift-Alt-PageDown>	Decrease fold level. (One less level of folds
+                                will be open afterwards.)
+
+				Note: In origami:Ctrl-Shift-Alt mode (see
+				|kent-origamimode|), pressing <PageDown>
+				behaves like <Ctrl-Shift-Alt-PageDown>.
+
+==============================================================================
+*kent-folding-enter*
+Enter folds or selections
+=========================
+
+You can enter a fold or a selection resp. a range of lines. To enter means to
+hide everything apart from the entered area. The current enter level is shown
+in the status line unless it is 0.
+
+Commands
+--------
+			*:Foldenter* *:FE*
+:{line}Foldenter	Enter fold on {line}. The current enter level is shown
+:{line}FE		in the status line unless it is 0.
+
+				*:Foldenterselection* *:FES*
+:{range}Foldenterselection	Enter lines of {range}. The current enter
+:{range}FES			level is shown in the status line unless it is
+				0.
+
+Shortcuts
+---------
+			*Alt-Home* *<Alt-Home>* *<M-Home>*
+<Alt-Home>		Enter fold on current line. If there is something
+			selected, enter selection. The current enter level is
+			shown in the status line unless it is 0.
+
+			If you want to enter a range of lines, you can use
+			<Alt-Insert>, <Alt-Up> and <Alt-Down> to select the
+			lines just as described in |<Alt-Insert>| (but instead
+			of pressing <Alt-Insert> a second time you press
+			<Alt-Home> now).
+
+			If you are in insert mode, and the fold at the cursor
+			position is currently open, pressing <Alt-Home> the
+			first time will close the fold. To enter it, press
+			<Alt-Home> a second time.
+
+			Note: In origami:Alt mode (see |kent-origamimode|),
+			pressing <Home> behaves like <Alt-Home>.
+
+==============================================================================
+*kent-folding-exit*
+Exit folds
+==========
+
+Commands
+--------
+			*:Foldexit* *:FX*
+:Foldexit		Exit currently entered fold. The current enter level
+:FX			is shown in the status line unless it is 0.
+
+			*:Foldexitall* *:FXA*
+:Foldexitall		Exit all entered folds. The current enter level is
+:FXA			shown in the status line unless it is 0.
+
+Shortcuts
+---------
+			*Alt-PageUp* *<Alt-PageUp>* *<M-PageUp>*
+<Alt-PageUp>		Exit currently entered fold. The current enter level
+   			is shown in the status line unless it is 0.
+
+			Note: In origami:Alt mode (see |kent-origamimode|),
+			pressing <PageUp> behaves like <Alt-PageUp>.
+
+			*Ctrl-Alt-PageUp* *<Ctrl-Alt-PageUp>* *<M-C-PageUp>*
+<Ctrl-Alt-PageUp>	Exit all entered folds. The current enter level is
+   			shown in the status line unless it is 0.
+
+			Note: In origami:Ctrl-Alt mode (see
+			|kent-origamimode|), pressing <PageUp> behaves like
+			<Ctrl-Alt-PageUp>.
+
+==============================================================================
+*kent-folding-describe*
+Describe folds with first non-empty line
+========================================
+
+Commands
+--------
+			*:Folddescribe* *:FDB*
+:{range}Folddescribe	Describe folds in {range} with first non-empty line in
+:{range}FDB		fold. (Only applies to the folds which can be seen,
+			not to subfolds.) See also
+			|kent-programming-commentsandfiletypes|.
+
+			*:Folddescribeall* *:FDBA*
+:Folddescribeall	Describe all folds in the current buffer with first
+:FDBA			non-empty line in fold. See also
+			|kent-programming-commentsandfiletypes|.
+
+			*:Folddescriberec* *:FDBR*
+:{range}Folddescriberec	Describe folds in {range} with first non-empty line in
+:{range}FDBR		fold recursively (i.e. including subfolds). See also
+			|kent-programming-commentsandfiletypes|.
+
+Shortcuts
+---------
+			*Ctrl-Alt-Insert* *<Ctrl-Alt-Insert>* *<M-C-Insert>*
+<Ctrl-Alt-Insert>	Describe folds in selection or on current line with
+			first non-empty line in fold. (Only applies to the
+			folds which can be seen, not to subfolds.) See also
+			|kent-programming-commentsandfiletypes|.
+
+			Note: In origami:Ctrl-Alt mode (see
+			|kent-origamimode|), pressing <Insert> behaves like
+			<Ctrl-Alt-Insert>.
+
+==============================================================================
+*kent-folding-togglecomment*
+Toggle whether a fold is commented out
+======================================
+
+Commands
+--------
+				*:Foldtogglecomment* *:FTC*
+:{range}Foldtogglecomment	For the folds in {range}, toggle whether they
+:{range}FTC			are commented out. (Only applies to the
+				outermost folds.) See also
+				|kent-programming-commentsandfiletypes|.
+
+				The standard fold comment marker is >
+				COMMENT
+<				You can define another marker by putting >
+				let g:_fold_foldcommentmarker = '{marker}'
+<				at the end of your your vimrc file.
+
+Shortcuts
+---------
+			*Shift-Alt-Insert* *<Shift-Alt-Insert>* *<M-S-Insert>*
+<Shift-Alt-Insert>	For the folds in selection or on current line, toggle
+			whether they are commented out. (Only applies to the
+			outermost folds.) See also
+			|kent-programming-commentsandfiletypes|.
+
+			The standard fold comment marker is >
+			COMMENT
+<			You can define another marker by putting >
+			let g:_fold_foldcommentmarker = '{marker}'
+<			at the end of your your vimrc file.
+
+			Note: In origami:Shift-Alt mode (see
+			|kent-origamimode|), pressing <Insert> behaves like
+			<Shift-Alt-Insert>.
+
+==============================================================================
+*kent-folding-viewcursorline*
+View cursor line
+================
+
+Commands
+--------
+			*zv*
+zv			View cursor line: Open enough folds to make the line
+			in which the cursor is located not folded.
+
+Shortcuts
+---------
+			*Ctrl-Alt-Home* *<Ctrl-Alt-Home>* *<M-C-Home>*
+<Ctrl-Alt-Home>		View cursor line: Open enough folds to make the line
+			in which the cursor is located not folded.
+
+			Note: In origami:Ctrl-Alt mode (see
+			|kent-origamimode|), pressing <Home> behaves like
+			<Ctrl-Alt-Home>.
+
+==============================================================================
+*kent-folding-reapplyfoldlevel*
+Re-apply fold level
+===================
+
+Commands
+--------
+			*zX*
+zX			Undo manually opened and closed folds ad re-apply the
+			current foldlevel.
+
+Shortcuts
+---------
+			*Shift-Alt-Home* *<Shift-Alt-Home>* *<M-S-Home>*
+<Shift-Alt-Home>	Undo manually opened and closed folds ad re-apply the
+			current foldlevel.
+
+			Note: In origami:Shift-Alt mode (see
+			|kent-origamimode|), pressing <Home> behaves like
+			<Shift-Alt-Home>.
+
+==============================================================================
+*kent-folding-reinitialise* *kent-folding-reinitialize*
+Reinitialise folds
+==================
+
+Commands
+--------
+			*:Foldreinitialise* *:Foldreinitialize* *:FRI*
+:Foldreinitialise:	Reinitialise the folds according to the fold markers
+:Foldreinitialize	in the text. In some situations the appearance of
+:FRI			might be messed up. If this happens, you should use
+			this command.
+
+Shortcuts
+---------
+			*Shift-Alt-PageUp* *<Shift-Alt-PageUp>* *<M-S-PageUp>*
+<Shift-Alt-PageUp>	Reinitialise the folds according to the fold markers
+			in the text. In some situations the appearance of
+			might be messed up. If this happens, you should use
+			this shortcut.
+
+			Note: In origami:Shift-Alt mode (see
+			|kent-origamimode|), pressing <PageUp> behaves like
+			<Shift-Alt-PageUp>.
+
+==============================================================================
+*kent-folding-disable* *kent-folding-enable*
+Disable and enable folding
+==========================
+
+Commands
+--------
+			*zn*
+zn			Disable folding. All folds will be open.
+
+			*zN*
+zN			Enable folding. All folds will be as they were before.
+
+Shortcuts
+---------
+			*Ctrl-Shift-Alt-Home* *<Ctrl-Shift-Alt-Home>*
+			*<M-C-S-Home>*
+<Ctrl-Shift-Alt-Home>	Disable folding. All folds will be open.
+
+			Note: In origami:Ctrl-Shift-Alt mode (see
+			|kent-origamimode|), pressing <Home> behaves like
+			<Ctrl-Shift-Alt-Home>.
+
+			*Ctrl-Shift-Alt-PageUp* *<Ctrl-Shift-Alt-PageUp>*
+			*<M-C-S-PageUp>*
+<Ctrl-Shift-Alt-PageUp>	Enable folding. All folds will be as they were before.
+
+			Note: In origami:Ctrl-Shift-Alt mode (see
+			|kent-origamimode|), pressing <PageUp> behaves like
+			<Ctrl-Shift-Alt-PageUp>.
+
+==============================================================================
+*kent-folding-origamimode* *kent-origamimode* *origami*
+Adjust the folding behaviour to origami style
+=============================================
+
+Commands
+--------
+			*:Toggleorigamimode* *:TOM*
+:Toggleorigamimode	Toggle between the different types of origami mode. In
+:TOM			origami mode, the "sixpack" keys <Insert>, <Del>,
+			<Home>, <End>, <PageUp> and <PageDown> behave like as
+			if they are pressed together with a combination of
+			<Ctrl>, <Shift> and <Alt>. Calling this command
+			repeatedly changes origami mode in the following
+			order: <Alt>, <Ctrl-Alt>, <Shift-Alt>,
+			<Ctrl-Shift-Alt>, off. For an overview of the possible
+			shortcuts see |kent-folding-shortcuts|).
+
+			Additionally, pressing <Left> or <Right> in any of the
+			origami modes, when there is text selected, will
+			decrease or increase the indent by one |'shiftwidth'|.
+
+			*:Origamimodeoff* *:XOM*
+:Origamimodeoff		Switch origami mode off.
+:XOM
+
+Shortcuts
+---------
+			*F10* *<F10>*
+<F10>			Toggle between the different types of origami mode. In
+			origami mode, the "sixpack" keys <Insert>, <Del>,
+			<Home>, <End>, <PageUp> and <PageDown> behave like as
+			if they are pressed together with a combination of
+			<Ctrl>, <Shift> and <Alt>. Pressing <F10> repeatedly
+			changes origami mode in the following order: <Alt>,
+			<Ctrl-Alt>, <Shift-Alt>, <Ctrl-Shift-Alt>, off. For an
+			overview of the possible shortcuts see
+			|kent-folding-shortcuts|).
+
+			Additionally, pressing <Left> or <Right> in any of the
+			origami modes, when there is text selected, will
+			decrease or increase the indent by one |'shiftwidth'|.
+
+			*Ctrl-F10* *<Ctrl-F10>* *<C-F10>*
+<Ctrl-F10>		Switch origami mode off.
+
+==============================================================================
+*kent-folding-toggleshowfoldlevel*
+Toggle whether fold level is shown in status line
+=================================================
+
+Commands
+--------
+			*:Toggleshowfoldlevel* *:TSF*
+:Toggleshowfoldlevel	Toggle whether the current fold level is shown in the
+:TSF			status line.
+
+			By default, the fold level is not shown at startup. If
+			you want it to be shown by default, put >
+			let g:_fold_showfoldlevel = 1
+<			at the end of your your vimrc file.
+
+Shortcuts
+---------
+			*Ctrl-F7* *<Ctrl-F7>* *<C-F7>*
+<Ctrl-F7>		Toggle whether the current fold level is shown in the
+			status line.
+
+			By default, the fold level is not shown at startup. If
+			you want it to be shown by default, put >
+			let g:_fold_showfoldlevel = 1
+<			at the end of your your vimrc file.
+
+==============================================================================
+*kent-folding-toggleexpandemptyfoldtext*
+Toggle whether empty fold text is expanded
+==========================================
+
+Commands
+--------
+				*:Toggleexpandemptyfoldtext* *:TEE*
+:Toggleexpandemptyfoldtext	Toggle whether an empty fold text line (which
+:TEE				would only consost of three dots) will be
+				expanded.
+
+				The standard expand text is >
+				(FOLDED)
+<				You can define another text by putting >
+				let g:_fold_emptyfoldtext = '{text}'
+<				at the end of your your vimrc file.
+
+				By default, empty fold text expansion is on at
+				startup. If you want it off by default, put >
+				let g:_fold_expandemptyfoldtext = 0
+<				at the end of your your vimrc file.
+
+Shortcuts
+---------
+			*Ctrl-F8* *<Ctrl-F8>* *<C-F8>*
+<Ctrl-F8>		Toggle whether an empty fold text line (which would
+			only consost of three dots) will be expanded.
+
+			The standard expand text is >
+			(FOLDED)
+<			You can define another text by putting >
+			let g:_fold_emptyfoldtext = '{text}'
+<			at the end of your your vimrc file.
+
+			By default, empty fold text expansion is on at
+			startup. If you want it off by default, put >
+			let g:_fold_expandemptyfoldtext = 0
+<			at the end of your your vimrc file.
+
+==============================================================================
+*kent-folding-recover*
+Recover folds after a crashed session
+=====================================
+
+Vim maintains swap files so that after a crashed session a file can be
+recovered. If you are not inside a fold when a Vim session crashes, just use
+the normal Vim recovery mechanism described in |usr_11.txt|. If you are inside
+a fold when a Vim session crashes, use the following methodology:
+
+* Re-open the file. Vim will ask you whether you want to recover the file.
+  Choose the recovery option, and the file will be recovered. Now the file only
+  contains the fold you were inside when the last Vim session crashed.
+* Check whether the content of this fold is OK. If yes, save the file and
+  close Vim.
+* Re-open the file again. Vim will ask you again whether you want to recover
+  the file. Now choose to delete the swap file.
+* Then Vim will tell you that a fold information swap file for this file
+  already exists and will ask you whether to start the recovery. Choose the
+  recovery option.
+* The remaining areas of the file (outside the fold) are now being recovered.
+  Check whether the file is OK now. If yes, save the file. You can now
+  continue editing the file.
+* Vim will not delete the folding swap files unless you either explicitly tell
+  Vim to do so or you enter a fold after the recovery has finished. Should you
+  open the file later, and Vim again asks you about recovery, you can then
+  choose to delete the folding swap files.
+
+You can either use the automatic detection of previous swap files as described
+above, or you can do the recovery manually using the |:Foldrecover| command.
+
+Commands
+--------
+			*:Foldrecover* *:FR*
+:Foldrecover [infofile]	Calling this command will cause Vim to look for a fold
+:FR [infofile]		information swap file. It will either use the
+			(optional) [infofile] argument if it is provided with
+			the command, otherwise it will use the name of the
+			current swap file plus ".fold.info". (Please note that
+			fold information swap files always end with
+			".fold.info".) Vim will then ask you whether to
+			recover the previous session using this fold
+			information swap file or to delete it (or to cancel
+			the operation).
+
+==============================================================================
+*kent-folding-shortcuts*
+Table of the "sixpack" shortcuts 
+================================
+
+Most of the shortcuts concerning folding are mapped to one of the "sixpack"
+keys <Insert>, <Del>, <Home>, <End>, <PageUp> and <PageDown> in combination
+with <Ctrl>, <Shift> and <Alt>.
+
+The following table gives an overview over the mappings:
+
+M = Alt
+C = Ctrl
+S = Shift
+
++------------------------+------------------------+------------------------+
+| |<M-Insert>|           | |<M-Home>|             | |<M-PageUp>|           |
+|    Create fold         |    Enter fold          |    Exit fold           |
+| |<M-C-Insert>|         | |<M-C-Home>|           | |<M-C-PageUp>|         |
+|    Describe folds      |    View cursor line    |    Exit all folds      |
+| |<M-S-Insert>|         | |<M-S-Home>|           | |<M-S-PageUp>|         |
+|    Toggle fold comment |    Re-apply fold level |    Reinitialise folds  |
+| |<M-C-S-Insert>|       | |<M-C-S-Home>|         | |<M-C-S-PageUp>|       |
+|    Eliminate folds     |    Disable folding     |    Enable folding      |
++------------------------+------------------------+------------------------+
+| |<M-Del>|              | |<M-End>|              | |<M-PageDown>|         |
+|    Delete folds        |    Open folds          |    Close folds         |
+|                        | |<M-C-End>|            | |<M-C-PageDown>|       |
+|                        |    Open all folds      |    Close all folds     |
+| |<M-S-Del>|            | |<M-S-End>|            | |<M-S-PageDown>|       |
+|    Delete folds        |    Open folds          |    Close folds         |
+|    recursively         |    recursively         |    recursively         |
+|                        | |<M-C-S-End>|          | |<M-C-S-PageDown>|     |
+|                        |    Increase fold level |    Decrease fold level |
++------------------------+------------------------+------------------------+
+
+Note: In origami mode (see |kent-origamimode|), pressing one of the "sixpack"
+keys behaves like pressing it together with <Alt>, <Ctrl-Alt>, <Shift-Alt>,
+or <Ctrl-Shift-Alt>.
+
+vim:tw=78:ts=8:isk+=-:ft=help:norl:

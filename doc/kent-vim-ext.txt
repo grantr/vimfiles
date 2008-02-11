@@ -1,0 +1,53 @@
+*kent-vim-ext.txt*	Kent Vim Extensions - Overview
+*kent-vim-ext* *kent-vim-extensions* *kent* *vim-extensions*
+
+		VIM REFERENCE MANUAL by Mario Schweigler <ms44@kent.ac.uk>
+			Last Change: 23 April 2003
+
+==============================================================================
+
+This help file gives an overview over the Kent Vim Extensions. The purpose of
+these extensions is to make the use of Vim easier, especially for programming
+tasks, while preserving the extraordinary features of Vim, which make it
+(imho) one of the best editors available.
+
+Note: These extensions are tested for Vim version 6.1 onwards. No guarantees
+for lower versions!
+
+Many of the ideas came from my supervisor, Peter Welch, for which I am very
+grateful.
+
+There are the following parts:
+
+|kent-folding|		Extensions to improve the look and feel of folds.
+			Especially the possibility to enter folds, inspired by
+			the old origami editor, is very useful.
+|kent-improve|		Improvements to the look and feel of Vim.
+|kent-gui-improve|	Improvements to the look and feel of GVim. (These are
+			only available in GUI mode!)
+|kent-programming|	Extensions useful for programming tasks.
+|kent-occam|		Extensions related to the occam language.
+
+Also have a look at:
+|occam|			The occam Checklist by Peter Welch.
+
+Note: If you need help for a shortcut, please use the following order:
+Ctrl, Shift, Alt, Key. Use dashes between the parts. For example: >
+
+	<Ctrl-Shift-Alt-Insert>
+
+The <> are optional.
+
+Another way is to let Vim create the shortcut pattern for you. For example, if
+you need help for <Ctrl-Shift-Alt-Insert>, type in command line ":help ", then
+press <Ctrl-Q> and the shortcut you need help for. So the following appears
+(in this case): >
+
+	:help <M-C-S-Insert>
+
+Now just press <Enter> to show the relevant help.
+
+Have fun!
+Mario
+
+vim:tw=78:ts=8:isk+=-:ft=help:norl:

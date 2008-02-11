@@ -1,0 +1,300 @@
+*kent-gui-improve.txt*	Kent GVim Improvements
+*kent-gui-improve*
+
+		VIM REFERENCE MANUAL by Mario Schweigler <ms44@kent.ac.uk>
+			Last Change: 23 April 2003
+
+==============================================================================
+
+This help file gives an overview over some improvements to the look and feel
+of GVim, i.e. the GUI version of Vim.
+
+==============================================================================
+Contents:
+
+|kent-gui-improve-buffers|	Buffers and windows
+|kent-gui-improve-movement|	Movement
+|kent-gui-improve-edit|		Delete, Cut, Copy, Paste, Select
+|kent-gui-improve-undoredo|	Undo and Redo
+|kent-gui-improve-findreplace|	Find and Replace
+|kent-gui-improve-indent|	Manipulate indent
+|kent-gui-improve-addsubtract|	Add and Subtract
+|kent-gui-improve-togglecase|	Toggle case
+|kent-gui-improve-jumptomatch|	Jump to match
+|kent-gui-improve-help|		Call help
+|kent-gui-improve-save|		Save file
+
+Please note that these improvements are only available in GUI mode and NOT in
+console mode.
+
+==============================================================================
+*kent-gui-improve-buffers*
+Buffers and windows
+===================
+
+Shortcuts
+---------
+			*Ctrl-Tab* *<Ctrl-Tab>* *<C-Tab>*
+<Ctrl-Tab>		Switch to next window.
+
+			*Ctrl-Shift-Tab* *<Ctrl-Shift-Tab>* *<C-S-Tab>*
+<Ctrl-Shift-Tab>	Switch to previous window.
+
+			*Ctrl-F4* *<Ctrl-F4>* *<C-F4>*
+<Ctrl-F4>		Close the current window.
+
+			*Alt-F4* *<Alt-F4>* *<M-F4>*
+<Alt-F4>		Close Vim.
+
+			*Alt-Space* *<Alt-Space>* *<M-Space>*
+<Alt-Space>		Open system menu (if provided by operating system).
+
+==============================================================================
+*kent-gui-improve-movement*
+Movement
+========
+
+The movement in a buffer is now more "usual" as one knows from common editors.
+For example <Shift> together with the arrow keys selects text.
+
+Shortcuts
+---------
+			*Ctrl-Up* *<Ctrl-Up>* *<C-Up>*
+<Ctrl-Up>		Scroll one line up.
+
+			*Ctrl-Down* *<Ctrl-Down>* *<C-Down>*
+<Ctrl-Down>		Scroll one line down.
+
+			*F11* *<F11>*
+<F11>			Toggle between displaywise and linewise movement
+			(Displaywise means relative to screen lines, and
+			linewise means relative to lines in the buffer,
+			linewise is default). Affects the behaviour of <Up>,
+			<Down>, <Shift-Up>, <Shift-Down>, <Home>, <End>,
+			<Shift-Home>, <Shift-End>.
+
+==============================================================================
+*kent-gui-improve-edit*
+Delete, Cut, Copy, Paste, Select
+================================
+
+Shortcuts
+---------
+			*Ctrl-D* *<Ctrl-D>* *<C-D>*
+<Ctrl-D>		Delete current line or delete selection linewise.
+
+			Note: Use <Ctrl-Alt-D> for the original <Ctrl-D>
+			command.
+
+			*Ctrl-X* *<Ctrl-X>* *<C-X>*
+			*Shift-Del* *<Shift-Del>* *<S-Del>*
+<Ctrl-X>		Cut current line or current selection into the @+
+<Shift-Del>		register.
+
+			Note: Use <Ctrl-Alt-X> to toggle between the original
+			<Ctrl-X> functionality and the Cut functionality in
+			insert mode.
+
+			*Ctrl-C* *<Ctrl-C>* *<C-C>*
+			*Ctrl-Insert* *<Ctrl-Insert>* *<C-Insert>*
+<Ctrl-C>		Copy current line or current selection into the @+
+<Ctrl-Insert>		register.
+
+			Note: Use <Ctrl-F9> for the original <Ctrl-C> command.
+
+			*Ctrl-V* *<Ctrl-V>* *<C-V>*
+			*Shift-Insert* *<Shift-Insert>* *<S-Insert>*
+<Ctrl-V>		Paste the content of the @+ register into the current
+<Shift-Insert>		buffer.
+
+			*Ctrl-Q* *<Ctrl-Q>* *<C-Q>*
+<Ctrl-Q>		Insert next key literally. (Replaces original
+			<Ctrl-V>.)
+
+			*Ctrl-B* *<Ctrl-B>* *<C-B>*
+<Ctrl-B>		Start or change to blockwise selection.
+
+			Note: Use <Ctrl-Alt-B> for the original <Ctrl-B>
+			command.
+
+			*Ctrl-L* *<Ctrl-L>* *<C-L>*
+<Ctrl-L>		Start or change to linewise selection.
+
+			Note: Use <Ctrl-Alt-L> for the original <Ctrl-L>
+			command.
+
+			*Ctrl-K* *<Ctrl-K>* *<C-K>*
+<Ctrl-K>		If text is selected, change to normal (not block- or
+			linewise) selection.
+
+			*Ctrl-A* *<Ctrl-A>* *<C-A>*
+<Ctrl-A>		Select everything in the current buffer.
+
+==============================================================================
+*kent-gui-improve-undoredo*
+Undo and Redo
+=============
+
+Shortcuts
+---------
+			*Ctrl-Z* *<Ctrl-Z>* *<C-Z>*
+			*Alt-Backspace* *<Alt-Backspace>* *<M-BS>*
+[count]<Ctrl-Z>		Undo [count] changes (one if count is omitted).
+[count]<Alt-Backspace>
+			Note: Use <Ctrl-Alt-Z> for the original <Ctrl-Z>
+			command.
+
+				*Ctrl-Y* *<Ctrl-Y>* *<C-Y>*
+				*Shift-Alt-Backspace* *<Shift-Alt-Backspace>*
+				*<M-S-BS>*
+[count]<Ctrl-Y>			Redo [count] changes which were undone (one if
+[count]<Shift-Alt-Backspace>	count is omitted).
+
+				Note: Use <Ctrl-Alt-Y> for the original
+				<Ctrl-Y> command.
+
+==============================================================================
+*kent-gui-improve-findreplace*
+Find and Replace
+================
+
+Shortcuts
+---------
+			*Ctrl-F* *<Ctrl-F>* *<C-F>*
+<Ctrl-F>		Start find command. See |/| for details.
+
+			Note: Use <Ctrl-Alt-F> for the original <Ctrl-F>
+			command.
+
+			*Ctrl-Shift-F3* *<Ctrl-Shift-F3>* *<C-S-F3>*
+<Ctrl-Shift-F3>		Start find backwards command. See |?| for details.
+
+			*F3* *<F3>*
+<F3>			Repeat last search. See |/| for details.
+
+			*Shift-F3* *<Shift-F3>* *<S-F3>*
+<Shift-F3>		Repeat last search backwards. See |?| for details.
+
+			*Ctrl-F3* *<Ctrl-F3>* *<C-F3>*
+<Ctrl-F3>		Unhighlight the seach pattern in the text. See
+			|'hlsearch'| for details.
+
+			*Ctrl-R* *<Ctrl-R>* *<C-R>*
+<Ctrl-R>		Replace globally on current line or in current
+			selection. See |:s| for details.
+
+			*Shift-F2* *<Shift-F2>* *<S-F2>*
+<Shift-F2>		Replace first occurence on current line or on each
+			line in current selection. See |:s| for details.
+
+			*Ctrl-F2* *<Ctrl-F2>* *<C-F2>*
+<Ctrl-F2>		Replace globally in buffer. See |:s| for details.
+
+			*Ctrl-Shift-F2* *<Ctrl-Shift-F2>* *<C-S-F2>*
+<Ctrl-Shift-F2>		Replace first occurence on each line in buffer. See
+			|:s| for details.
+
+			*F2* *<F2>*
+<F2>			Repeat last replacement. See |:s| for details.
+
+==============================================================================
+*kent-gui-improve-indent*
+Manipulate indent
+=================
+
+Shortcuts
+---------
+			*Alt-Right* *<Alt-Right>* *<M-Right>*
+			*Tab* *<Tab>*
+<Alt-Right>		Increase indent by one |'shiftwidth'|. (In insert mode,
+<Tab>			<Tab> works as usual.)
+
+			Note: In origami mode (see |kent-origamimode|),
+			pressing <Right>, when there is text selected, will
+			also increase the indent.
+
+			*Alt-Left* *<Alt-Left>* *<M-Left>*
+			*Shift-Tab* *<Shift-Tab>* *<S-Tab>*
+<Alt-Left>		Decrease indent by one |'shiftwidth'|.
+<S-Tab>
+			Note: In origami mode (see |kent-origamimode|),
+			pressing <Left>, when there is text selected, will
+			also decrease the indent.
+
+==============================================================================
+*kent-gui-improve-addsubtract*
+Add and Subtract
+================
+
+Shortcuts
+---------
+			*Ctrl-Alt-A* *<Ctrl-Alt-A>* *<M-C-A>*
+[count]<Ctrl-Alt-A>	Add [count] to the number or alphabetic character at
+			or after the cursor. (Replaces the original <Ctrl-A>
+			command, see also |'nrformats'|.)
+
+			*Ctrl-Alt-S* *<Ctrl-Alt-S>* *<M-C-S>*
+[count]<Ctrl-Alt-S>	Subtract [count] from the number or alphabetic
+			character at or after the cursor. (Replaces the
+			original <Ctrl-X> command, see also |'nrformats'|.)
+
+==============================================================================
+*kent-gui-improve-togglecase*
+Toggle case
+===========
+
+Shortcuts
+---------
+			*F4* *<F4>*
+<F4>			Toggle the case of the character under the cursor or
+			of all characters in the current selection.
+
+==============================================================================
+*kent-gui-improve-jumptomatch*
+Jump to match
+=============
+
+Shortcuts
+---------
+			*Ctrl-F11* *<Ctrl-F11>* *<C-F11>*
+<Ctrl-F11>		Find the next item in current line after or under the
+			cursor and jump to its match. See also |'matchpairs'|.
+
+==============================================================================
+*kent-gui-improve-help*
+Call help
+=========
+
+Shortcuts
+---------
+			*F1* *<F1>*
+<F1>			Open the help window and display the main help file.
+
+			*Shift-F1* *<Shift-F1>* *<S-F1>*
+<Shift-F1>		Start the help command. See |:help| for details.
+
+			*Ctrl-F1* *<Ctrl-F1>* *<C-F1>*
+<Ctrl-F1>		Open the help window and display context-sensitive
+			help to the word under the cursor or to the currently
+			selected text.
+
+			*Ctrl-Shift-F1* *<Ctrl-Shift-F1>* *<C-S-F1>*
+<Ctrl-Shift-F1>		Start the help command with the word under the cursor
+			or the currently selected text. See |:help| for
+			details.
+
+It is now possible in a help window to jump between help tags with <Tab> and
+<Shift-Tab>, and to call them by pressing <Enter> - just like in an internet
+browser.
+
+==============================================================================
+*kent-gui-improve-save*
+Save file
+=========
+
+Shortcuts
+---------
+			*Ctrl-S* *<Ctrl-S>* *<C-S>*
+<Ctrl-S>		Save the current buffer.
+
+vim:tw=78:ts=8:isk+=-:ft=help:norl:

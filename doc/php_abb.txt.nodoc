@@ -1,0 +1,666 @@
+*php_abb.txt* *php*	php ftplugin for quickly outputting php functions
+        		    for Vim version 6.0 or higher
+	        	    last change: 2003-05-23 
+
+
+php ftplugin by culley harrelson (vim@culley.fastmail.fm)
+
+==============================================================================
+1. Contents                                                 *php-abb-contents*
+
+    installation            : |php-abb-install|
+    php_abb intro           : |php-abb|
+    customization           : |php-abb-customize|
+    abbreviation reference  : |php-abb-reference|
+    todo list               : |php-abb-todo|
+    credits                 : |php-abb-credits|
+
+==============================================================================
+2. php_abb installation                                      *php-abb-install*
+
+    In order to install this script, place the php_abb.vim file into your
+    ftplugin directory (see |ftplugin|).
+
+    You can also |:source| it from your |.vimrc|.
+
+    For instructions on installing this help file, type
+	    :help add-local-help
+
+    or see |add-local-help| 
+
+    You should read the introduction (|php-abb-intro|) help section and the
+    section on customization (|php-abb-customize|).
+
+    Finally you should create a couple of maps (see |map.txt|):
+
+    imap <F7>  <esc>:call ReplacePlaceHolder()<cr>a
+    nmap <F7>  :call ReplacePlaceHolder()<cr>
+    nmap <LocalLeader>m <ESC>:call PhpActOnVariable()<cr>
+
+    Change the maps to unused keys if these are used elsewhere.
+
+==============================================================================
+3. php_abb introduction                                        *php-abb-intro*
+                                                              
+   php_abb is a ftplugin for php mostly providing insert mode abbreviations
+   for php builtin functions and control structures.  These abbreviations
+   expand to function stubs and should help you remember the syntax in
+   addition to speeding up typing.  A map-like function that does a number of
+   possibly obtuse things is also included (see |PhpActOnVariable|).
+
+   The insert mode |abbreviations| come in two falvors: those using the raw
+   php function name (these can be disabled-- see |phpUseFunctionNames|) and
+   those prefixed with |phpLeader|.
+
+   Because most php functions have more than one argument some sort of
+   placeholder is required for every argument beyond the first (it should be
+   noted that the abbreviations in this plugin generally only include the most
+   commonly used optional arguments).  Placeholders are represented by a
+   description of the argument nested between the greater than and less than
+   characters (like a html or xml tag).  A function is provided to jump
+   forward and replace this placeholder (see |php-abb-install|).  You should
+   create a map to this function.
+
+
+3.1. acting on the variable under the cursor
+------------------------------------------------------------------------------
+                                                            *phpActOnVariable*
+
+   The phpActOnVariable function performs a number of activities on the php
+   variable under your cursor at the time the function is executed.  You
+   should create a map to this function (see |php-abb-install|).  As an
+   example of how you would use this say you have mapped it to <leader>m and
+   you have your cursor on any letter in the word test in the following code:
+
+        $test = "FooBaR";
+   
+   If you then type <leader>m and strtl<cr> a new line will be opened
+   underneath and the following code will be inserted:
+
+        $test = strtolower($test);
+
+   You can see a list of all the mappings for this function by executing the
+   function and entering '?' when prompted.
+
+   The phpActOnVariable function leaves you in normal mode and you will
+   normally need to use |a| to continue.
+
+
+==============================================================================
+4. php_abb customization                                   *php-abb-customize*
+
+4.1. g:phpUseFunctionNames
+------------------------------------------------------------------------------
+                                                         *phpUseFunctionNames*
+
+    The default setting for this plugin is to use the php function names
+    themselves as abbreviations. type array_key_esists and a function shell
+    will be expanded.  You can disable this feature by putting the following
+    line in your |vimrc| or in another php |ftplugin| file:
+
+      let g:phpUseFunctionNames = 0 
+ 
+    Abbreviations have not been created for particularly problematic functions
+    like count, require, include etc.
+
+
+4.2. g:phpLeader
+------------------------------------------------------------------------------
+                                                                  *phpLeader*
+
+    Other abbreviations have been provided in addition to using the php
+    function names.  All of these additional abbreviations are prefixed with
+    the value of g:phpLeader.  The default value of this variable is "php" so,
+    for example, typing phpprint will output the print abbreviation.  Change
+    this prefix by putting the following line in your |vimrc| or in another
+    php |ftplugin| file:
+
+      let g:phpLeader = "php"
+    
+    and replace php with whatever value you prefer.
+
+4.3. g:phpNewlineBeforeBrace
+------------------------------------------------------------------------------
+                                                       *phpNewlineBeforeBrace*
+    
+    The default setting for this script is to format php control structures
+    according to the PEAR coding standards detailed here:
+
+    http://pear.php.net/manual/en/standards.control.php
+
+    If you dont like this style and  prefer a new line before the open brace
+    then putting the following line in your |vimrc| or in another php
+    |ftplugin| file:
+
+      let g:phpNewlineBeforeBrace = 1
+
+4.4. g:phpFoldMarkerFunctions
+------------------------------------------------------------------------------
+                                                      *phpFoldMarkerFunctions*
+    
+    
+    This option will create vim foldmarkers (see |fold-marker|)around newly
+    created function.  Most people are probably not going to want this option
+    so it is off by default.  See |func| for an example of the syntax.
+
+    If you would like to wrap your functions in a vim fold then put the
+    following line in your |vimrc| or in another php |ftplugin| file:
+
+      let g:phpFoldMarkerFunctions = 1
+
+4.5. g:phpRequireIncludeParens
+------------------------------------------------------------------------------
+                                                     *phpRequireIncludeParens*
+    
+    Some people like to use parenthesis for |require|, |require_once|,
+    |include| and |include_once| and some don't.  The default setting is to
+    use parenthesis.
+
+    If you would prefer not to use parenthesis for these statements then put
+    the following line in your |vimrc| or in another php |ftplugin| file:
+
+      let g:phpRequireIncludeParens = 0
+
+==============================================================================
+5. abbreviation reference	                               *php-abb-reference*
+
+    Below is a quick list of abbreviations and the mneumonic phrase they are
+    trying to represent.  Below the quick list are detailed descriptions
+    including what the abbreviations expand to.  In the detailed descriptions
+    "Base Abbreviated" refers to whether or not an abbreviation exists for the
+    raw php function name and "Act On Variable" refers to whether or not a
+    |PhpActOnVariable| map exists.  --cursor-- signifies where the cursor is
+    left after expansion.  All of these abbreviations are prefixed with
+    |phpLeader|.
+
+
+5.1. quick reference
+------------------------------------------------------------------------------
+    Remember that all of these abbreviations are prefixed with |phpLeader|
+------------------------------------------------------------------------------
+
+    |ake|                   - array key exist
+    |am|                    - array map
+    |ap|                    - array push
+    |array_key_exists|      - array key exists
+    |array_map|             - array map
+    |array_push|            - array push
+    |cke|                   - cookie key exists
+    |ck|                    - cookie
+    |cnt|                   - count
+    |cookie|                - cookie
+    |count|                 - count
+    |c|                     - count
+    |e|                     - echo
+    |echo|                  - echo 
+    |em|                    - empty
+    |empty|                 - empty
+    |env|                   - environment 
+    |explode|               - explode
+    |exp|                   - explode
+    |extract|               - extract
+    |ext|                   - extract
+    |fore|                  - for each
+    |for|                   - for
+    |func|                  - function
+    |gke|                   - get key exists
+    |h|                     - ?!?  h is easy to type when |phpLeader| is 'php'
+    |hsc|                   - html special characters
+    |htmlspecialchars|      - html special characters
+    |ifeif|                 - if else if
+    |ife|                   - if else
+    |ifl|                   - if line (ternary)
+    |ift|                   - if ternary
+    |if|                    - if
+    |implode|               - implode
+    |imp|                   - implode
+    |include_once|          - include once
+    |include|               - include 
+    |inc|                   - include (once)
+    |isset|                 - is set
+    |isn|                   - is null
+    |isnull|                - is null
+    |isnum|                 - is numeric
+    |isnumeric|             - is numeric
+    |iss|                   - is set
+    |is_null|               - is null
+    |is_numeric|            - is numeric
+    |join|                  - join
+    |j|                     - join
+    |lower|                 - string to lower case
+    |o|                     - output
+    |pke|                   - post key exists
+    |post|                  - post
+    |preg_match|            - preg match
+    |print_r|               - print r
+    |print|                 - print
+    |prm|                   - preg match
+    |pr|                    - print r
+    |p|                     - print
+    |scc|                   - string comparison (case sensitive)
+    |sc|                    - string comparison (case insensitive)
+    |self|                  - $_SERVER['PHP_SELF']
+    |servername|            - server name
+    |server|                - $_SERVER
+    |session|               - $_SESSION
+    |sess|                  - $_SESSION
+    |ske|                   - session key exists
+    |sn|                    - server name
+    |split|                 - split
+    |spl|                   - split
+    |spos|                  - string position
+    |sp|                    - string position
+    |str_replace|           - string replace
+    |strcasecmp|            - string comparison (case sensitive)
+    |strcmp|                - string comparison (case insensitive)
+    |strc|                  - string comparison (case insensitive)
+    |strlen|                - string length
+    |strl|                  - string length
+    |strpos|                - string position
+    |strr|                  - string replace
+    |strstr|                - string string
+    |strs|                  - string string
+    |strtl|                 - string to lower case
+    |strtolower|            - string to lower case
+    |strtoupper|            - string to upper case
+    |strtu|                 - string to upper case
+    |substring|             - substring
+    |substr|                - substring
+    |subs|                  - substring
+    |switch|                - switch case
+    |sw|                    - switch case
+    |unset|                 - unset
+    |upper|                 - string to upper case
+    |us|                    - unset
+    |wordwrap|              - word wrap
+    |ww|                    - word wrap
+
+5.1. detailed reference
+------------------------------------------------------------------------------
+    Remember that all of these abbreviations are prefixed with <phpLeader>
+------------------------------------------------------------------------------
+                              *ake* *array_key_exists* *ske* *pke* *gke* *cke*
+   Abberviation(s)  : ake, array_key_exists, ske, pke, gke, cke 
+   Expands To       : array_key_exists('--cursor--', $<array>)
+   Base Abbreviated : yes
+   Act On Variable  : no
+   Notes            : ske, pke, gke and cke expand just as ake but place 
+                      $_SESSION, $_POST, $_GET, or $_COOKIE in the <array> slot
+------------------------------------------------------------------------------
+                                                              *am* *array_map*
+   Abberviation(s)  : am, array_map 
+   Expands To       : array_map('--cursor--', $<array>);
+   Base Abbreviated : yes
+   Act On Variable  : yes
+------------------------------------------------------------------------------
+                                                             *ap* *array_push*
+   Abberviation(s)  : ap, array_push 
+   Expands To       : array_push($--cursor--, <mixed>);
+   Base Abbreviated : yes
+   Act On Variable  : yes
+------------------------------------------------------------------------------
+                                                             *c* *cnt* *count*
+   Abberviation(s)  : c, cnt, count
+   Expands To       : count($--cursor--);
+   Base Abbreviated : no
+   Act On Variable  : yes
+------------------------------------------------------------------------------
+                                                                       *class*
+   Abberviation(s)  : class
+   Expands To       : class  {
+                      }
+   Base Abbreviated : no
+   Act On Variable  : no
+------------------------------------------------------------------------------
+                                                                 *ck* *cookie*
+   Abberviation(s)  : cookie
+   Expands To       : $_COOKIE['--cursor--']
+   Base Abbreviated : no
+   Act On Variable  : no
+------------------------------------------------------------------------------
+                                                                    *e* *echo*
+   Abberviation(s)  : e, echo
+   Expands To       : echo '--cursor--';
+   Base Abbreviated : no
+   Act On Variable  : yes
+------------------------------------------------------------------------------
+                                                                  *em* *empty*
+   Abberviation(s)  : em, empty
+   Expands To       : empty($--cursor--)
+   Base Abbreviated : no
+   Act On Variable  : yes
+------------------------------------------------------------------------------
+                                                                         *env*
+   Abberviation(s)  : env
+   Expands To       : $_ENV['--cursor--']
+   Base Abbreviated : no
+   Act On Variable  : no
+------------------------------------------------------------------------------
+                                                  *spl* *exp* *split* *explode*
+   Abberviation(s)  : exp, split, explode, spl
+   Expands To       : explode('--cursor--', $<string>);
+   Base Abbreviated : no
+   Act On Variable  : yes
+------------------------------------------------------------------------------
+                                                               *ext* *extract* 
+   Abberviation(s)  : ext, extract
+   Expands To       : extract($--cursor--, EXTR_OVERWRITE);
+   Base Abbreviated : no
+   Act On Variable  : yes
+------------------------------------------------------------------------------
+                                                                         *for*
+   Abberviation(s)  : for 
+   Expands To       : for($i=0;$i;$i++) {
+                      }
+   Base Abbreviated : no
+   Act On Variable  : no
+   Notes            : If you don't like the placement of the braces see
+                      |phpNewlineBeforeBrace| for alternative formats.
+------------------------------------------------------------------------------
+                                                                        *fore*
+   Abberviation(s)  : fore 
+   Expands To       : foreach($--cursor-- as $k => $v) {
+                      }
+   Base Abbreviated : yes
+   Act On Variable  : yes
+   Notes            : If you don't like the placement of the braces see
+                      |phpNewlineBeforeBrace| for alternative formats.
+------------------------------------------------------------------------------
+                                                                        *func*
+   Abberviation(s)  : func
+   Expands To       : // {{{ function <function name>
+                      function <function name>(--cursor--)
+                      {
+
+                      }
+                      // }}}
+   Base Abbreviated : no
+   Act On Variable  : no
+   Notes            : this abbreviation calls a routine that asks you for the
+                      function name and places that value in <function name>.
+                      The |fold-marker| comment lines are optional and are not
+                      displayed with the default settings. See
+                      |phpFoldMarkerFunctions| if you want to use the fold
+                      markers.
+------------------------------------------------------------------------------
+                                                                         *get*
+   Abberviation(s)  : get
+   Expands To       : $_GET['--cursor--']
+   Base Abbreviated : no
+   Act On Variable  : no
+------------------------------------------------------------------------------
+                                                                           *h*
+   Abberviation(s)  : h
+   Expands To       : <?php
+                      --cursor-- 
+                      ?>
+   Base Abbreviated : no
+   Act On Variable  : no
+------------------------------------------------------------------------------
+                                                      *hsc* *htmlspecialchars*
+   Abberviation(s)  : hsc, htmlspecialchars
+   Expands To       : htmlspecialchars($--cursor--);
+   Base Abbreviated : yes
+   Act On Variable  : yes
+------------------------------------------------------------------------------
+                                                                          *if*
+   Abberviation(s)  : if 
+   Expands To       : if ($--cursor--) {
+                      }
+   Base Abbreviated : no
+   Act On Variable  : no
+   Notes            : If you don't like the placement of the braces see
+                      |phpNewlineBeforeBrace| for alternative formats.
+------------------------------------------------------------------------------
+                                                                         *ife*
+   Abberviation(s)  : ife
+   Expands To       : if ($--cursor--) {
+                      } else {
+                      }
+   Base Abbreviated : no
+   Act On Variable  : no
+   Notes            : If you don't like the placement of the braces see
+                      |phpNewlineBeforeBrace| for alternative formats.
+------------------------------------------------------------------------------
+                                                                       *ifeif*
+   Abberviation(s)  : ifeif
+   Expands To       : if ($--cursor--) {
+                      } elseif (<expression>) {
+                      } else {
+                      }
+   Base Abbreviated : no
+   Act On Variable  : no
+   Notes            : If you don't like the placement of the braces see
+                      |phpNewlineBeforeBrace| for alternative formats.
+------------------------------------------------------------------------------
+                                                                   *ift* *ifl*
+   Abberviation(s)  : ifl, ift
+   Expands To       : $--cursor-- = (<expression>) ? $<true> : $<false>;
+   Base Abbreviated : no
+   Act On Variable  : no
+------------------------------------------------------------------------------
+                                                    *imp* *implode* *join* *j*
+   Abberviation(s)  : imp, implode, join
+   Expands To       : implode('--cursor--', $<array>);
+   Base Abbreviated : yes
+   Act On Variable  : yes
+------------------------------------------------------------------------------
+                                                          *inc* *include_once*
+   Abberviation(s)  : imc, include_once
+   Expands To       : include_once('--cursor--');
+   Base Abbreviated : yes
+   Act On Variable  : no
+   Notes            : see |phpRequireIncludeParens| if you would prefer 
+                      not to use parenthesis.
+------------------------------------------------------------------------------
+                                                                     *include*
+   Abberviation(s)  : include
+   Expands To       : include('--cursor--');
+   Base Abbreviated : yes
+   Act On Variable  : no
+   Notes            : see |phpRequireIncludeParens| if you would prefer 
+                      not to use parenthesis.
+------------------------------------------------------------------------------
+                                                                 *iss* *isset*
+   Abberviation(s)  : iss, isset
+   Expands To       : isset($--cursor--)
+   Base Abbreviated : yes
+   Act On Variable  : yes
+------------------------------------------------------------------------------
+                                                      *isn* *is_null* *isnull*
+   Abberviation(s)  : isn, is_null, isnull
+   Expands To       : is_null($--cursor--)
+   Base Abbreviated : yes
+   Act On Variable  : yes
+------------------------------------------------------------------------------
+                                              *isnum* *is_numeric* *isnumeric*
+   Abberviation(s)  : isnum, is_numeric, isnumeric
+   Expands To       : is_numeric($--cursor--)
+   Base Abbreviated : yes
+   Act On Variable  : yes
+------------------------------------------------------------------------------
+                                                                           *o*
+   Abberviation(s)  : o
+   Expands To       : <?= $--cursor-- ?>
+   Base Abbreviated : no
+   Act On Variable  : no
+------------------------------------------------------------------------------
+                                                                   *p* *print*
+   Abberviation(s)  : p, print
+   Expands To       : print("--cursor--");
+   Base Abbreviated : no
+   Act On Variable  : yes
+------------------------------------------------------------------------------
+                                                            *prm* *preg_match*
+   Abberviation(s)  : prm, preg_match
+   Expands To       : preg_match('/--cursor--/', $<string>, $matches) 
+   Base Abbreviated : yes
+   Act On Variable  : yes
+   Notes            : act on variable places a preg_match in an if block
+------------------------------------------------------------------------------
+                                                                        *post*
+   Abberviation(s)  : post
+   Expands To       : $_POST['--cursor--']
+   Base Abbreviated : no
+   Act On Variable  : no
+------------------------------------------------------------------------------
+                                                                *pr* *print_r*
+   Abberviation(s)  : pr, print_r
+   Expands To       : print_r($--cursor--) 
+   Base Abbreviated : yes
+   Act On Variable  : yes
+   Notes            : act on variable wraps it in html <pre> tags
+------------------------------------------------------------------------------
+                                                          *req* *require_once*
+   Abberviation(s)  : req, require_once
+   Expands To       : require_once('--cursor--');
+   Base Abbreviated : yes
+   Act On Variable  : no
+   Notes            : see |phpRequireIncludeParens| if you would prefer 
+                      not to use parenthesis.
+------------------------------------------------------------------------------
+                                                                     *require*
+   Abberviation(s)  : require
+   Expands To       : require('--cursor--');
+   Base Abbreviated : yes
+   Act On Variable  : no
+   Notes            : see |phpRequireIncludeParens| if you would prefer 
+                      not to use parenthesis.
+------------------------------------------------------------------------------
+                                                    *scc* *strcc* *strcasecmp*
+   Abberviation(s)  : scc, strcc, strcasecmp
+   Expands To       : strcasecmp($--cursor--, <string>)
+   Base Abbreviated : yes
+   Act On Variable  : yes
+   Notes            : act on variable places a strcasecmp in an if block
+------------------------------------------------------------------------------
+                                                          *sc* *strc* *strcmp*
+   Abberviation(s)  : sc, strc, strccmp
+   Expands To       : strcmp($--cursor--, <string>)
+   Base Abbreviated : yes
+   Act On Variable  : yes
+   Notes            : act on variable places a strcasecmp in an if block
+------------------------------------------------------------------------------
+                                                                        *self*
+   Abberviation(s)  : self
+   Expands To       : $_SERVER['PHP_SELF']
+   Base Abbreviated : no
+   Act On Variable  : no
+------------------------------------------------------------------------------
+                                                                      *server*
+   Abberviation(s)  : server
+   Expands To       : $_SERVER['--cursor--']
+   Base Abbreviated : no
+   Act On Variable  : no
+------------------------------------------------------------------------------
+                                                              *sess* *session*
+   Abberviation(s)  : sess, session
+   Expands To       : $_SESSION['--cursor--']
+   Base Abbreviated : no
+   Act On Variable  : no
+------------------------------------------------------------------------------
+                                                             *sn* *servername*
+   Abberviation(s)  : sn, servername
+   Expands To       : $_SERVER['SERVER_NAME']
+   Base Abbreviated : no
+   Act On Variable  : no
+------------------------------------------------------------------------------
+                                                          *sp* *spos* *strpos*
+   Abberviation(s)  : sp, spos, strpos
+   Expands To       : strpos($--cursor--,'<string>');
+   Base Abbreviated : yes
+   Act On Variable  : no
+------------------------------------------------------------------------------
+                                                               *strs* *strstr*
+   Abberviation(s)  : strs, strstr
+   Expands To       : strstr($--cursor--, '<string>')
+   Base Abbreviated : yes
+   Act On Variable  : yes
+------------------------------------------------------------------------------
+                                                   *subs* *substr* *substring*
+   Abberviation(s)  : subs, substr substring
+   Expands To       : substr($--cursor--, <start>);
+   Base Abbreviated : yes
+   Act On Variable  : yes
+------------------------------------------------------------------------------
+                                                   *strl* *strlen* *strlength*
+   Abberviation(s)  : strl, strlen, strlength
+   Expands To       : strlen($--cursor--)
+   Base Abbreviated : yes
+   Act On Variable  : yes
+------------------------------------------------------------------------------
+                                                          *strr* *str_replace*
+   Abberviation(s)  : strr, str_replace
+   Expands To       : str_replace(--cursor--, <replace>, $<subject>);
+   Base Abbreviated : yes
+   Act On Variable  : yes
+------------------------------------------------------------------------------
+                                                  *strtl* *strtolower* *lower*
+   Abberviation(s)  : strtl, strtolower, lower
+   Expands To       : strtolower($--curosr--);
+   Base Abbreviated : yes
+   Act On Variable  : yes
+------------------------------------------------------------------------------
+                                                  *strtu* *strtoupper* *upper*
+   Abberviation(s)  : strtu, strtoupper upper
+   Expands To       : strtoupper($--cursor--);
+   Base Abbreviated : yes
+   Act On Variable  : yes
+------------------------------------------------------------------------------
+                                                                 *sw* *switch*
+   Abberviation(s)  : switch sw
+   Expands To       : switch ($--cursor--) {
+                          Case <case>:
+                              break;
+                      }
+   Base Abbreviated : no
+   Act On Variable  : yes
+   Notes            : If you don't like the placement of the braces see
+                      |phpNewlineBeforeBrace| for alternative formats.
+------------------------------------------------------------------------------
+                                                          *te* *trigger_error*
+   Abberviation(s)  : trigger_error, te
+   Expands To       : trigger_error("--curosr--", E_USER_ERROR);
+   Base Abbreviated : yes
+   Act On Variable  : no
+------------------------------------------------------------------------------
+                                                                  *us* *unset*
+   Abberviation(s)  : us, unset
+   Expands To       : unset($--cursor--);
+   Base Abbreviated : yes
+   Act On Variable  : yes
+------------------------------------------------------------------------------
+                                                                       *while*
+   Abberviation(s)  : while
+   Expands To       : while ($--cursor--) {
+                      }
+   Base Abbreviated : no
+   Act On Variable  : yes
+   Notes            : If you don't like the placement of the braces see
+                      |phpNewlineBeforeBrace| for alternative formats.
+------------------------------------------------------------------------------
+                                                               *ww* *wordwrap*
+   Abberviation(s)  : ww, wordwrap
+   Expands To       : wordwrap($--cursor--, <width>);
+   Base Abbreviated : yes
+   Act On Variable  : yes
+------------------------------------------------------------------------------
+
+
+==============================================================================
+                                                                *php-abb-todo*
+6. php_abb todo list
+
+    I write abbreviations for new php functions when I have free time or when
+    I am tired of typing the same function over and over.  There are plenty of
+    php functions left so there is pleanty to do.
+
+==============================================================================
+                                                             *php-abb-credits*
+7. php_abb credits
+
+    Thanks to Dan Loda for the |phpNewlineBeforeBrace| code.
+
+==============================================================================
+$Id: php_abb.txt,v 1.2 2003/05/26 16:21:31 culley Exp culley $
+ vim:tw=78:ts=4:ft=help:norl:fdm=manual:
