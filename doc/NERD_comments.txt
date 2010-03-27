@@ -1,4 +1,4 @@
-*NERD_comments.txt*         Plugin for commenting code            v169
+*NERD_comments.txt*         Plugin for commenting code           #version#
 
 
                         NERD_COMMENTS REFERENCE MANUAL~

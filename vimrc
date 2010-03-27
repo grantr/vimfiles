@@ -2,9 +2,12 @@ set nocompatible
 source $VIMRUNTIME/vimrc_example.vim
 behave xterm
 
-colorscheme zenburn
-
-set nobackup
+if has("gui_running")
+  colorscheme zenburn
+else
+    " find a colorscheme that works for terminals
+  colorscheme twilight
+end
 
 " vim assumes you want to print cjk when encoding is utf-8
 set printencoding=posix
@@ -139,3 +142,68 @@ autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
 "
 " flags, see help proj_flags for explanation
 let g:proj_flags="imstgL"
+
+" surround
+""autocmd FileType ruby,eruby let b:surround_35 = "#{\r}"  " adds #{ } surround
+
+" always go to top of git commit
+autocmd BufRead COMMIT_EDITMSG :0
+
+" git branch info
+let g:git_branch_status_head_current=1
+let g:git_branch_status_around="()"
+let g:git_branch_status_text=""
+"set statusline=substitute(statusline, '%=', '%{GitBranchInfoString()}%=', '')
+
+
+" from adam-vim
+
+" don't expand tabs where they are significant
+autocmd FileType make set noexpandtab
+autocmd FileType python set noexpandtab
+
+let g:fuzzy_ignore = "*.log"
+let g:fuzzy_matching_limit = 70
+
+let mapleader=","
+ 
+let Tlist_GainFocus_On_ToggleOpen=1
+let Tlist_Process_File_Always=1
+let Tlist_Show_Menu=1
+let Tlist_Enable_Fold_Column=0
+let g:gist_detect_filetype = 1
+
+set grepprg=ack
+set grepformat=%f:%l:%m
+
+map <leader>b :FufBuffer<CR>
+map <leader>e :FufFile<CR>
+map <leader>d :execute 'NERDTreeToggle ' . getcwd()<CR>
+map <leader>l :TlistToggle<CR>
+
+set backupdir=~/.vimswaps,/tmp
+
+if has("vms")
+  set nobackup " do not keep a backup file, use versions instead
+else
+  set backup " keep a backup file
+endif
+
+" Fuf abbreviations for rails
+let g:fuf_abbrevMap = {
+\   "^ra:" : [
+\     "app/**/"
+\   ],
+\   "^rl:" : [
+\     "lib/**/"
+\   ],
+\   "^rc:" : [
+\     "config/**/"
+\   ],
+\   "^rp:" : [
+\     "vendor/plugins/**/"
+\   ],
+\   "^gem:" : [
+\     "/usr/lib/ruby/gems/1.8/gems/**/"
+\   ],
+\ } 
