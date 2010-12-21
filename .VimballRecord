@@ -1,2 +1,3 @@
 Align.vba: call delete('/home/grantr/.vim/plugin/AlignPlugin.vim')|call delete('/home/grantr/.vim/plugin/AlignMaps.vim')|call delete('/home/grantr/.vim/plugin/cecutil.vim')|call delete('/home/grantr/.vim/doc/Align.txt')|call delete('/home/grantr/.vim/autoload/Align.vim')
 gitdiff.vba: call delete('/home/grantr/.vim/plugin/gitdiff.vim')
+supertab.vba: call delete('/home/grantr/.vim/doc/supertab.txt')|call delete('/home/grantr/.vim/plugin/supertab.vim')

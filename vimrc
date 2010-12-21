@@ -149,11 +149,9 @@ let g:proj_flags="imstgL"
 " always go to top of git commit
 autocmd BufRead COMMIT_EDITMSG :0
 
-" git branch info
-let g:git_branch_status_head_current=1
-let g:git_branch_status_around="()"
-let g:git_branch_status_text=""
-"set statusline=substitute(statusline, '%=', '%{GitBranchInfoString()}%=', '')
+" fugitive
+" how to preserve existing status line and append this to end?
+" set statusline=%{fugitive#statusline()}%#StatusLine#
 
 
 " from adam-vim

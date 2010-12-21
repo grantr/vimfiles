@@ -1,124 +1,59 @@
-" Vim filetype plugin
+" Vim indent file
 " Language:	Cucumber
-" Maintainer:	Tim Pope <vimNOSPAM@tpope.info>
+" Maintainer:	Tim Pope <vimNOSPAM@tpope.org>
 
-" Only do this when not done yet for this buffer
-if (exists("b:did_ftplugin"))
+if exists("b:did_indent")
   finish
 endif
-let b:did_ftplugin = 1
+let b:did_indent = 1
 
-setlocal formatoptions-=t formatoptions+=croql
-setlocal comments=:# commentstring=#\ %s
-setlocal omnifunc=CucumberComplete
+setlocal autoindent
+setlocal indentexpr=GetCucumberIndent()
+setlocal indentkeys=o,O,*<Return>,<:>,0<Bar>,0#,=,!^F
 
-let b:undo_ftplugin = "setl fo< com< cms< ofu<"
-
-let b:cucumber_root = expand('%:p:h:s?.*[\/]\%(features\|stories\)\zs[\/].*??')
-
-if !exists("g:no_plugin_maps") && !exists("g:no_cucumber_maps")
-  nmap <silent><buffer> <C-]>       :<C-U>exe <SID>jump('edit')<CR>
-  nmap <silent><buffer> <C-W>]      :<C-U>exe <SID>jump('split')<CR>
-  nmap <silent><buffer> <C-W><C-]>  :<C-U>exe <SID>jump('split')<CR>
-  nmap <silent><buffer> <C-W>}      :<C-U>exe <SID>jump('pedit')<CR>
-  let b:undo_ftplugin .= "| sil! iunmap! <C-]>| sil! iunmap! <C-W>]| sil! iunmap! <C-W>}"
+" Only define the function once.
+if exists("*GetCucumberIndent")
+  finish
 endif
 
-function! s:jump(command)
-  let steps = s:steps(getline('.'))
-  if len(steps) == 0
-    return 'echoerr "No matching step found"'
-  elseif len(steps) > 1
-    return 'echoerr "Multiple matching steps found"'
-  else
-    return a:command.' +'.steps[0][1].' '.escape(steps[0][0],' %#')
-  endif
+function! s:syn(lnum)
+  return synIDattr(synID(a:lnum,1+indent(a:lnum),1),'name')
 endfunction
 
-function! s:allsteps()
-  let step_pattern = '\C^\s*\%(Giv\|[WT]h\)en\>\s*\zs.\{-\}\ze\s*\%(do\|{\)\s*\%(|[A-Za-z0-9_,() *]*|\s*\)\=$'
-  let steps = []
-  for file in split(glob(b:cucumber_root.'/**/*.rb'),"\n")
-    let lines = readfile(file)
-    let num = 0
-    for line in lines
-      let num += 1
-      if line =~ step_pattern
-        let type = matchstr(line,'\w\+')
-        let steps += [[file,num,type,matchstr(line,step_pattern)]]
-      endif
-    endfor
-  endfor
-  return steps
-endfunction
-
-function! s:steps(step)
-  let step = matchstr(a:step,'^\s*\k*\s*\zs.\{-\}\s*$')
-  return filter(s:allsteps(),'s:stepmatch(v:val[3],step)')
-endfunction
-
-function! s:stepmatch(receiver,target)
-  if a:receiver =~ '^[''"].*[''"]$'
-    let pattern = '^'.escape(substitute(a:receiver[1:-2],'$\w\+','(.*)','g'),'/').'$'
-  elseif a:receiver =~ '^/.*/$'
-    let pattern = a:receiver[1:-2]
-  elseif a:receiver =~ '^%r..*.$'
-    let pattern = escape(a:receiver[3:-2],'/')
-  else
+function! GetCucumberIndent()
+  let line  = getline(prevnonblank(v:lnum-1))
+  let cline = getline(v:lnum)
+  let syn = s:syn(prevnonblank(v:lnum-1))
+  let csyn = s:syn(v:lnum)
+  if csyn ==# 'cucumberFeature' || cline =~# '^\s*Feature:'
     return 0
-  endif
-  try
-    let vimpattern = substitute(substitute(pattern,'\\\@<!(?:','%(','g'),'\\\@<!\*?','{-}','g')
-    if a:target =~# '\v'.vimpattern
-      return 1
-    endif
-  catch
-  endtry
-  if has("ruby")
-    ruby VIM.command("return #{if (begin; Kernel.eval('/'+VIM.evaluate('pattern')+'/'); rescue SyntaxError; end) === VIM.evaluate('a:target') then 1 else 0 end}")
-  else
+  elseif csyn ==# 'cucumberExamples' || cline =~# '^\s*\%(Examples\|Scenarios\):'
+    return 2 * &sw
+  elseif csyn =~# '^cucumber\%(Background\|Scenario\|ScenarioOutline\)$' || cline =~# '^\s*\%(Background\|Scenario\|Scenario Outline\):'
+    return &sw
+  elseif syn ==# 'cucumberFeature' || line =~# '^\s*Feature:'
+    return &sw
+  elseif syn ==# 'cucumberExamples' || line =~# '^\s*\%(Examples\|Scenarios\):'
+    return 3 * &sw
+  elseif syn =~# '^cucumber\%(Background\|Scenario\|ScenarioOutline\)$' || line =~# '^\s*\%(Background\|Scenario\|Scenario Outline\):'
+    return 2 * &sw
+  elseif cline =~# '^\s*@' && (s:syn(nextnonblank(v:lnum+1)) == 'cucumberFeature' || getline(nextnonblank(v:lnum+1)) =~# '^\s*Feature:' || indent(prevnonblank(v:lnum-1)) <= 0)
     return 0
+  elseif line =~# '^\s*@'
+    return &sw
+  elseif cline =~# '^\s*|' && line =~# '^\s*|'
+    return indent(prevnonblank(v:lnum-1))
+  elseif cline =~# '^\s*|' && line =~# '^\s*[^|#]'
+    return indent(prevnonblank(v:lnum-1)) + &sw
+  elseif cline =~# '^\s*[^|# \t]' && line =~# '^\s*|'
+    return indent(prevnonblank(v:lnum-1)) - &sw
+  elseif cline =~# '^\s*$' && line =~# '^\s*|'
+    let in = indent(prevnonblank(v:lnum-1))
+    return in == indent(v:lnum) ? in : in - &sw
+  elseif cline =~# '^\s*#' && getline(v:lnum-1) =~ '^\s*$' && getline(v:lnum+1) =~# '\S'
+    return indent(getline(v:lnum+1))
   endif
-endfunction
-
-function! s:bsub(target,pattern,replacement)
-  return  substitute(a:target,'\C\\\@<!'.a:pattern,a:replacement,'g')
-endfunction
-
-function! CucumberComplete(findstart,base) abort
-  let indent = indent('.')
-  let group = synIDattr(synID(line('.'),indent+1,1),'name')
-  let type = matchstr(group,'\Ccucumber\zs\%(Given\|When\|Then\)')
-  let e = matchend(getline('.'),'^\s*\S\+\s')
-  if type == '' || col('.') < col('$') || e < 0
-    return -1
-  endif
-  if a:findstart
-    return e
-  endif
-  let steps = []
-  for step in s:allsteps()
-    if step[2] ==# type
-      if step[3] =~ '^[''"]'
-        let steps += [step[3][1:-2]]
-      elseif step[3] =~ '^/\^.*\$/$'
-        let pattern = step[3][2:-3]
-        let pattern = s:bsub(pattern,'\\[Sw]','w')
-        let pattern = s:bsub(pattern,'\\d','1')
-        let pattern = s:bsub(pattern,'\\[sWD]',' ')
-        let pattern = s:bsub(pattern,'[[:alnum:]. -][?*]?\=','')
-        let pattern = s:bsub(pattern,'\[\([^^]\).\{-\}\]','\1')
-        let pattern = s:bsub(pattern,'+?\=','')
-        let pattern = s:bsub(pattern,'(\([[:alnum:]. -]\{-\}\))','\1')
-        let pattern = s:bsub(pattern,'\\\([[:punct:]]\)','\1')
-        if pattern !~ '[\\()*?]'
-          let steps += [pattern]
-        endif
-      endif
-    endif
-  endfor
-  call filter(steps,'strpart(v:val,0,strlen(a:base)) ==# a:base')
-  return sort(steps)
+  return indent(prevnonblank(v:lnum-1))
 endfunction
 
 " vim:set sts=2 sw=2:
